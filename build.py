@@ -15,7 +15,7 @@ if __name__ == "__main__":
 
     if tools.os_info.is_linux and (gcc_version in (8,9,10) or clang_version in (10,)):
         for shared_option in [True]:
-            custom_options = {"sdl2:esd": False, "sdl2:wayland": True, "sdl2:x11": True, 'sdl2:shared': shared_option}
+            custom_options = {"sdl2:wayland": True, "sdl2:x11": True, 'sdl2:shared': shared_option}
             builder.add({'arch': 'x86_64', 'build_type': 'Release', 'compiler': 'gcc',
                          'compiler.version': compiler_version}, custom_options)
             builder.add({'arch': 'x86_64', 'build_type': 'Debug', 'compiler': 'gcc',
