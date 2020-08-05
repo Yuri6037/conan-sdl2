@@ -3,13 +3,10 @@ on: [push, pull_request]
 jobs:
   conan:
     runs-on: ${{ matrix.os }}
-    container: ${{ matrix.container }}
     strategy:
       fail-fast: false
       matrix:
         include:
-          - os: windows-latest
-            container: cunity/windows-2019-vs2015-cmake
           - os: windows-2016
           - os: windows-latest
     steps:
@@ -27,5 +24,6 @@ jobs:
           CONAN_USERNAME: "bp3d"
           CONAN_PASSWORD: ${{ secrets.CONAN_PASSWORD }}
           CONAN_UPLOAD: https://api.bintray.com/conan/yuri6037/bp3d
+          CONAN_BUILD_POLICY: "missing"
         run: |
           bincrafters-package-tools --auto
