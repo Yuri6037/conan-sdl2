@@ -1,0 +1,29 @@
+jobs:
+  conan:
+    runs-on: ${{ matrix.os }}
+    container: ${{ matrix.container }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            container: cunity/windows-2019-vs2015-cmake
+          - os: windows-2016
+          - os: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v1
+        with:
+          python-version: "3.8"
+      - name: Install Conan
+        run: |
+          pip install bincrafters_package_tools
+          conan user
+      - name: Run
+        env:
+          CONAN_LOGIN_USERNAME: ${{ secrets.CONAN_LOGIN_USERNAME }}
+          CONAN_USERNAME: "bp3d"
+          CONAN_PASSWORD: ${{ secrets.CONAN_PASSWORD }}
+          CONAN_UPLOAD: https://api.bintray.com/conan/yuri6037/bp3d
+        run: |
+          bincrafters-package-tools --auto
