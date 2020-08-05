@@ -77,6 +77,7 @@ jobs:
       - name: Run
         env:
           CONAN_LOGIN_USERNAME: ${{ secrets.CONAN_LOGIN_USERNAME }}
+          CONAN_USERNAME: "bp3d"
           CONAN_PASSWORD: ${{ secrets.CONAN_PASSWORD }}
           CONAN_UPLOAD: https://api.bintray.com/conan/yuri6037/bp3d
         run: |
