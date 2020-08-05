@@ -8,11 +8,9 @@ jobs:
       matrix:
         include:
           - os: windows-2016
-            env:
-              CONAN_VISUAL_VERSIONS: 15
+            vs: 15
           - os: windows-latest
-            env:
-              CONAN_VISUAL_VERSIONS: 16
+            vs: 16
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v1
@@ -29,5 +27,6 @@ jobs:
           CONAN_PASSWORD: ${{ secrets.CONAN_PASSWORD }}
           CONAN_UPLOAD: https://api.bintray.com/conan/yuri6037/bp3d
           CONAN_BUILD_POLICY: "missing"
+          CONAN_VISUAL_VERSIONS: ${{ matrix.vs }}
         run: |
           bincrafters-package-tools --auto
