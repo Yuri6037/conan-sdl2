@@ -15,7 +15,6 @@ class SDL2Conan(ConanFile):
     settings = "os", "arch", "compiler", "build_type"
     options = {
         "shared": [True, False],
-        "hackskipdev": [True, False], #Required thanks to crappy conan unable to provide build_system_requirements
         "fPIC": [True, False],
         "directx": [True, False],
         "alsa": [True, False],
@@ -40,7 +39,6 @@ class SDL2Conan(ConanFile):
         "sdl2main": [True, False]
     }
     default_options = {
-        "hackskipdev": False,
         "shared": True,
         "fPIC": True,
         "directx": False,
@@ -71,6 +69,7 @@ class SDL2Conan(ConanFile):
     _cmake = None
 
     def build_requirements(self):
+        self.build_requires("sdl2-sys-require/1.0@bp3d/stable")
         if self.options.iconv:
             self.build_requires("libiconv/1.16")
 
@@ -83,49 +82,6 @@ class SDL2Conan(ConanFile):
             if self.options.pulse:
                 self.build_requires("pulseaudio/13.0@bincrafters/stable")
             self.build_requires("opengl/system")
-
-    def system_requirements(self):
-        if (self.options.hackskipdev):
-            return
-        if self.settings.os == "Linux" and tools.os_info.is_linux:
-            if tools.os_info.with_apt or tools.os_info.with_yum:
-                installer = tools.SystemPackageTool()
-
-                packages = []
-                packages_apt = []
-                packages_yum = []
-
-                packages_apt.append("libgbm-dev")
-                packages_yum.append("gdm-devel")
-
-                if self.options.jack:
-                    packages_apt.append("libjack-dev")
-                    packages_yum.append("jack-audio-connection-kit-devel")
-                if self.options.sndio:
-                    packages_apt.append("libsndio-dev")
-                if self.options.nas:
-                    packages_apt.append("libaudio-dev")
-                    packages_yum.append("nas-devel")
-                if self.options.esd:
-                    packages_apt.append("libesd0-dev")
-                    packages_yum.append("esound-devel")
-                if self.options.arts:
-                    packages_apt.append("artsc0-dev")
-                if self.options.wayland:
-                    packages_apt.extend(["libwayland-dev",
-                                     "wayland-protocols"])
-                    packages_yum.extend(["wayland-devel",
-                                    "wayland-protocols-devel"])
-                if self.options.directfb:
-                    packages_apt.append("libdirectfb-dev")
-
-                if tools.os_info.with_apt:
-                    packages = packages_apt
-                elif tools.os_info.with_yum:
-                    packages = packages_yum
-
-                for package in packages:
-                    installer.install(package)
 
     def config_options(self):
         if self.settings.os != "Linux":
