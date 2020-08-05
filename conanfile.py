@@ -15,6 +15,7 @@ class SDL2Conan(ConanFile):
     settings = "os", "arch", "compiler", "build_type"
     options = {
         "shared": [True, False],
+        "hackskipdev": [True, False], #Required thanks to crappy conan unable to provide build_system_requirements
         "fPIC": [True, False],
         "directx": [True, False],
         "alsa": [True, False],
@@ -39,6 +40,7 @@ class SDL2Conan(ConanFile):
         "sdl2main": [True, False]
     }
     default_options = {
+        "hackskipdev": False,
         "shared": True,
         "fPIC": True,
         "directx": False,
@@ -83,6 +85,8 @@ class SDL2Conan(ConanFile):
             self.build_requires("opengl/system")
 
     def system_requirements(self):
+        if (self.options.hackskipdev):
+            return
         if self.settings.os == "Linux" and tools.os_info.is_linux:
             if tools.os_info.with_apt or tools.os_info.with_yum:
                 installer = tools.SystemPackageTool()
