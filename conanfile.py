@@ -39,14 +39,14 @@ class SDL2Conan(ConanFile):
         "sdl2main": [True, False]
     }
     default_options = {
-        "shared": False,
+        "shared": True,
         "fPIC": True,
-        "directx": True,
-        "alsa": True,
-        "jack": True,
-        "pulse": True,
+        "directx": False,
+        "alsa": False,
+        "jack": False,
+        "pulse": False,
         "sndio": False,
-        "nas": True,
+        "nas": False,
         "esd": False,
         "arts": False,
         "x11": True,
@@ -55,32 +55,32 @@ class SDL2Conan(ConanFile):
         "xinput": True,
         "xrandr": True,
         "xscrnsaver": True,
-        "xshape": True,
-        "xvm": True,
+        "xshape": False,
+        "xvm": False,
         "wayland": False,
         "directfb": False,
-        "iconv": True,
+        "iconv": False,
         "video_rpi": False,
-        "sdl2main": True
+        "sdl2main": False
     }
 
     _source_subfolder = "source_subfolder"
     _build_subfolder = "build_subfolder"
     _cmake = None
 
-    def requirements(self):
+    def build_requirements(self):
         if self.options.iconv:
-            self.requires("libiconv/1.16")
+            self.build_requires("libiconv/1.16")
 
         if self.settings.os == "Linux" and tools.os_info.is_linux:
-            self.requires("xorg/system")
+            self.build_requires("xorg/system")
             if not tools.which("pkg-config"):
-                self.requires("pkg-config_installer/0.29.2@bincrafters/stable")
+                self.build_requires("pkg-config_installer/0.29.2@bincrafters/stable")
             if self.options.alsa:
-                self.requires("libalsa/1.1.9")
+                self.build_requires("libalsa/1.1.9")
             if self.options.pulse:
-                self.requires("pulseaudio/13.0@bincrafters/stable")
-            self.requires("opengl/system")
+                self.build_requires("pulseaudio/13.0@bincrafters/stable")
+            self.build_requires("opengl/system")
 
     def system_requirements(self):
         if self.settings.os == "Linux" and tools.os_info.is_linux:
