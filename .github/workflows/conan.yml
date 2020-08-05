@@ -78,5 +78,6 @@ jobs:
         env:
           CONAN_LOGIN_USERNAME: ${{ secrets.CONAN_LOGIN_USERNAME }}
           CONAN_PASSWORD: ${{ secrets.CONAN_PASSWORD }}
+          CONAN_UPLOAD: https://api.bintray.com/conan/yuri6037/bp3d
         run: |
           bincrafters-package-tools --auto
