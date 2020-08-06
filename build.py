@@ -21,9 +21,4 @@ if __name__ == "__main__":
             builder.add({'arch': 'x86_64', 'build_type': 'Debug', 'compiler': 'gcc',
                          'compiler.version': compiler_version}, custom_options)
 
-    if (tools.os_info.is_macos):
-        for shared_option in [True]:
-            custom_options = {'sdl2:shared': shared_option}
-            builder.add(custom_options)
-
     builder.run()

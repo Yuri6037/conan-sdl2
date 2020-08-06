@@ -111,6 +111,8 @@ class SDL2Conan(ConanFile):
         del self.settings.compiler.cppstd
         if self.settings.compiler == "Visual Studio":
             del self.options.fPIC
+        if (self.settings.os == "Macos" and not self.options.shared):
+            self.options.shared = True #For some reasons SDL2 refuses to statically link any application under MacOS Catalina 10.15, so just force it as shared
         if self.settings.os == "Macos" and not self.options.iconv:
             self.options.iconv = True
             #raise ConanInvalidConfiguration("On macOS iconv can't be disabled") Fucking Idiot ! YOU DO NOT RAISE INSTEAD YOU SET THE OPTION OH MY GOD FUCKER
