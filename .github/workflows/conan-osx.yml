@@ -24,6 +24,6 @@ jobs:
           CONAN_PASSWORD: ${{ secrets.CONAN_PASSWORD }}
           CONAN_UPLOAD: https://api.bintray.com/conan/yuri6037/bp3d
           CONAN_BUILD_POLICY: "missing"
-          CONAN_ENV_COMPILER_VERSION: 11
+          CONAN_APPLE_CLANG_VERSIONS: 11
         run: |
           bincrafters-package-tools --auto
