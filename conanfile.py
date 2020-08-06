@@ -112,7 +112,8 @@ class SDL2Conan(ConanFile):
         if self.settings.compiler == "Visual Studio":
             del self.options.fPIC
         if self.settings.os == "Macos" and not self.options.iconv:
-            raise ConanInvalidConfiguration("On macOS iconv can't be disabled")
+            self.options.iconv = True
+            #raise ConanInvalidConfiguration("On macOS iconv can't be disabled") Fucking Idiot ! YOU DO NOT RAISE INSTEAD YOU SET THE OPTION OH MY GOD FUCKER
 
     def source(self):
         tools.get(**self.conan_data["sources"][self.version])
