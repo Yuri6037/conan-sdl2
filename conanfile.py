@@ -84,6 +84,9 @@ class SDL2Conan(ConanFile):
             self.build_requires("opengl/system")
 
     def config_options(self):
+        lst = ["jack", "sndio", "nas", "esd", "arts", "wayland", "directfb"]
+        for v in lst: #Attempt at passing options
+            self.options["sdl2-sys-require"][v] = self.options[v]
         if self.settings.os != "Linux":
             self.options.remove("alsa")
             self.options.remove("jack")
