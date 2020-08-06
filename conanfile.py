@@ -81,6 +81,8 @@ class SDL2Conan(ConanFile):
                 self.build_requires("libalsa/1.1.9")
             if self.options.pulse:
                 self.build_requires("pulseaudio/13.0@bincrafters/stable")
+            if (self.options.wayland):
+                self.build_requires("wayland/system")
             self.build_requires("opengl/system")
 
     def config_options(self):
