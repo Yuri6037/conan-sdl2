@@ -120,7 +120,7 @@ class SDL2Conan(ConanFile):
         if self.settings.os == "Macos" and not self.options.iconv:
             self.options.iconv = True
             #raise ConanInvalidConfiguration("On macOS iconv can't be disabled") Fucking Idiot ! YOU DO NOT RAISE INSTEAD YOU SET THE OPTION OH MY GOD FUCKER
-        if (self.settings.compiler == "GCC" and self.settings.compiler.version == "4.9" and self.options.wayland):
+        if (self.settings.compiler == "gcc" and self.settings.compiler.version == "4.9" and self.options.wayland):
             self.options.wayland = False #Wayland does not work under GCC-4.9
 
     def source(self):
