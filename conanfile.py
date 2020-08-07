@@ -65,7 +65,7 @@ class SDL2Conan(ConanFile):
     _cmake = None
 
     def build_requirements(self):
-        self.build_requires("sdl2-sys-require/1.0@bp3d/stable")
+        self.build_requires("sdl2-sys-require/1.0@bp3d/stable", force_host_context=True)
         if self.options.iconv:
             self.build_requires("libiconv/1.16")
 
@@ -77,6 +77,8 @@ class SDL2Conan(ConanFile):
                 self.build_requires("libalsa/1.1.9")
             if self.options.pulse:
                 self.build_requires("pulseaudio/13.0@bincrafters/stable")
+            if (self.options.wayland):
+                self.build_requires("wayland/system")
             self.build_requires("opengl/system")
 
     def config_options(self):
@@ -101,9 +103,9 @@ class SDL2Conan(ConanFile):
             self.options.remove("directx")
 
     def configure(self):
-        lst = ["jack", "sndio", "nas", "esd", "arts", "wayland", "directfb"]
-        for v in lst: #Attempt at passing options
-            self.options["sdl2-sys-require"][v] = self.options[v]
+        #lst = ["jack", "sndio", "nas", "esd", "arts", "wayland", "directfb"]
+        #for v in lst: #Attempt at passing options
+        #    self.options["sdl2-sys-require"][v] = self.options[v]
         del self.settings.compiler.libcxx
         del self.settings.compiler.cppstd
         if self.settings.compiler == "Visual Studio":
