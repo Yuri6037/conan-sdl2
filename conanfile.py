@@ -65,11 +65,11 @@ class SDL2Conan(ConanFile):
     _cmake = None
 
     def build_requirements(self):
-        self.build_requires("sdl2-sys-require/1.0@bp3d/stable", force_host_context=True)
         if self.options.iconv:
             self.build_requires("libiconv/1.16")
 
         if self.settings.os == "Linux" and tools.os_info.is_linux:
+            self.build_requires("sdl2-base/1.0@bp3d/stable")
             self.build_requires("xorg/system")
             if not tools.which("pkg-config"):
                 self.build_requires("pkg-config_installer/0.29.2@bincrafters/stable")
@@ -78,7 +78,15 @@ class SDL2Conan(ConanFile):
             if self.options.pulse:
                 self.build_requires("pulseaudio/13.0@bincrafters/stable")
             if (self.options.wayland):
-                self.build_requires("wayland/system")
+                self.build_requires("sdl2-wayland/1.0@bp3d/stable")
+            if (self.options.directfb):
+                self.build_requires("sdl2-directfb/1.0@bp3d/stable")
+            if (self.options.jack):
+                self.build_requires("sdl2-jack/1.0@bp3d/stable")
+            if (self.options.nas):
+                self.build_requires("sdl2-nas/1.0@bp3d/stable")
+            if (self.options.sndio):
+                self.build_requires("sdl2-sndio/1.0@bp3d/stable")
             self.build_requires("opengl/system")
 
     def config_options(self):
@@ -103,9 +111,6 @@ class SDL2Conan(ConanFile):
             self.options.remove("directx")
 
     def configure(self):
-        #lst = ["jack", "sndio", "nas", "esd", "arts", "wayland", "directfb"]
-        #for v in lst: #Attempt at passing options
-        #    self.options["sdl2-sys-require"][v] = self.options[v]
         del self.settings.compiler.libcxx
         del self.settings.compiler.cppstd
         if self.settings.compiler == "Visual Studio":
