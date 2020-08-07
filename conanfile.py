@@ -22,8 +22,6 @@ class SDL2Conan(ConanFile):
         "pulse": [True, False],
         "sndio": [True, False],
         "nas": [True, False],
-        "esd": [True, False],
-        "arts": [True, False],
         "x11": [True, False],
         "xcursor": [True, False],
         "xinerama": [True, False],
@@ -47,8 +45,6 @@ class SDL2Conan(ConanFile):
         "pulse": False,
         "sndio": False,
         "nas": False,
-        "esd": False,
-        "arts": False,
         "x11": True,
         "xcursor": True,
         "xinerama": True,
@@ -90,8 +86,6 @@ class SDL2Conan(ConanFile):
             self.options.remove("pulse")
             self.options.remove("sndio")
             self.options.remove("nas")
-            self.options.remove("esd")
-            self.options.remove("arts")
             self.options.remove("x11")
             self.options.remove("xcursor")
             self.options.remove("xinerama")
@@ -148,7 +142,6 @@ class SDL2Conan(ConanFile):
     def _check_dependencies(self):
         if self.settings.os == "Linux":
             self._check_pkg_config(self.options.jack, "jack")
-            self._check_pkg_config(self.options.esd, "esound")
             self._check_pkg_config(self.options.wayland, "wayland-client")
             self._check_pkg_config(self.options.wayland, "wayland-protocols")
             self._check_pkg_config(self.options.directfb, "directfb")
@@ -271,8 +264,6 @@ class SDL2Conan(ConanFile):
                 self._add_libraries_from_pc("sndio")
             if self.options.nas:
                 self.cpp_info.libs.append("audio")
-            if self.options.esd:
-                self._add_libraries_from_pc("esound")
             if self.options.directfb:
                 self._add_libraries_from_pc("directfb")
             if self.options.video_rpi:
